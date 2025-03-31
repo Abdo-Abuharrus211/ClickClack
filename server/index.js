@@ -10,7 +10,7 @@ import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 
 const app = express();
-const port = 3001;
+const port = 3011;
 const API_PREFIX = "/api/v1";
 
 const swaggerDocument = JSON.parse(fs.readFileSync('./swagger-output.json', 'utf-8'));
@@ -20,7 +20,7 @@ app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.json()) // for parsing application/json
 app.use(cookieParser()); // enables reading cookies from `req.cookies`
 app.use((req, res, next) => { // CORS
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // Allow all origins (*), change for production
+  res.header("Access-Control-Allow-Origin", "https://test.jessemckenzie.com"); // Allow all origins (*), change for production
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Allowed methods
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Allowed headers
   res.header("Access-Control-Allow-Credentials", "true"); // Allow credentials (cookies, Authorization header)

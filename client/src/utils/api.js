@@ -1,4 +1,4 @@
-export const SERVER_BASE_URL = 'http://localhost:3001/api/v1'
+export const SERVER_BASE_URL = 'https://test.jessemckenzie.com/api/v1'
 
 /**
  *  Get the user's basic info like display name and API tokens (trials) the user has
