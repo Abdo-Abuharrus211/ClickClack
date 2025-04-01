@@ -10,9 +10,71 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+  const [fieldErrors, setFieldErrors] = useState({
+    display_name: false,
+    email: false,
+    password: false,
+  });
+
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (fieldErrors.email) {
+      setFieldErrors((prev) => ({ ...prev, email: false }));
+      setError(null);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    if (fieldErrors.password) {
+      setFieldErrors((prev) => ({ ...prev, password: false }));
+      setError(null);
+    }
+  };
+
+  const validateInput = () => {
+    let hasError = false;
+    let errorMessage = "";
+
+    const trimmedEmail = email.trim();
+
+    // Reset field errors
+    setFieldErrors({ email: false, password: false });
+
+    if (!trimmedEmail) {
+      hasError = true;
+      errorMessage = "Email is required.";
+      setFieldErrors((prev) => ({ ...prev, email: true }));
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(trimmedEmail)) {
+        hasError = true;
+        errorMessage = "Invalid email format.";
+        setFieldErrors((prev) => ({ ...prev, email: true }));
+      }
+    }
+
+    if (!password) {
+      hasError = true;
+      errorMessage = errorMessage || "Password is required.";
+      setFieldErrors((prev) => ({ ...prev, password: true }));
+    }
+
+    if (hasError) {
+      setError(errorMessage);
+    }
+
+    return !hasError;
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateInput()) {
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -33,7 +95,7 @@ export default function LoginPage() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to sign up.");
+        throw new Error("Failed to log in.");
       }
 
       const data = await response.json();
@@ -52,10 +114,23 @@ export default function LoginPage() {
     <div className="login-container">
       <h1 className="login-title">Login</h1>
       <form className="login-form" onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" className="login-input" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" className="login-input" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type="email"
+          placeholder="Email"
+          className={`login-input ${fieldErrors.email ? "input-error" : ""}`}
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className={`login-input ${fieldErrors.password ? "input-error" : ""}`}
+          value={password}
+          onChange={handlePasswordChange}
+        />
         <button type="submit" className="login-button" disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
       </form>
+      {error && <p className="login-error" style={{ color: "red", marginTop: "10px" }}>{error}</p>}
 
       <p className="login-signup-text">
         Don&apos;t have an account? <Link href="/auth/signup" className="login-signup-link">Sign up here</Link>

@@ -136,6 +136,20 @@ button.logout-btn:hover{
   border-radius: 10px;
 }
 
+/*---- Form Errors ----*/
+.theme-error {
+  color: var(--primary);
+  font-size: 0.85rem;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.input-error {
+  border: 2px solid var(--primary) !important;
+  background-color: rgba(255, 0, 0, 0.05);
+}
+
+
 
 /*---- Navbar  ----*/
 .navbar {

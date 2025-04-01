@@ -10,15 +10,42 @@ export default function PromptPage() {
   const [difficulty, setDifficulty] = useState("easy");
   const [testDuration, setTestDuration] = useState("30");
   const [theme, setText] = useState("");
+  const [themeError, setThemeError] = useState(null);
   const [apiTokens, setApiTokens] = useState(0);
   const [response, setResponse] = useState("");
   const [prevPrompts, setPrevPrompts] = useState([])
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
+  const handleThemeChange = (e) => {
+    const value = e.target.value;
+    setText(value);
+
+    // Clear error when resume type
+    if (themeError) {
+      setThemeError(null);
+    }
+    if (value.trim().length > 30) {
+      setThemeError("Theme must be under 30 characters");
+    }
+  };
+
+  const validateTheme = (value) => {
+    if (value.trim().length > 30) {
+      setThemeError("Theme must be under 30 characters");
+      return false;
+    }
+    setThemeError(null);
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateTheme(theme)) {
+      return
+    }
     setLoading(true);
     setError(null);
 
@@ -160,12 +187,12 @@ export default function PromptPage() {
 
           <label>Theme</label>
           <textarea
-            placeholder="Enter theme here..."
-            className="prompt-input"
+            placeholder="Enter theme here... (under 30 characters)"
+            className={`prompt-input ${themeError ? "input-error" : ""}`}
             value={theme}
-            onChange={(e) => setText(e.target.value)}
+            onChange={handleThemeChange}
           />
-
+          {themeError && <p className="theme-error" style={{ color: "red", marginTop: "5px" }}>{themeError}</p>}
           <button type="submit" className="prompt-button" disabled={loading}>
             {loading ? "Generating..." : "Submit"}
           </button>
