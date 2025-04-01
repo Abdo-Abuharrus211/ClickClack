@@ -15,6 +15,12 @@ const app = express();
 const port = 3011;
 const API_PREFIX = "/v1";
 
+// For testing
+app.use((req, _, next) => {
+  console.log(`[INCOMING] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 const swaggerDocument = JSON.parse(fs.readFileSync('./swagger-output.json', 'utf-8'));
 app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
