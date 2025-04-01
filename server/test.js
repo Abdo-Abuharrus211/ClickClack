@@ -92,20 +92,24 @@ export async function getTests(req, res) {
     const userid = req.userid;
 
     const tests = await sql`
-      SELECT DISTINCT 
-      tests.testid, 
-      tests.promptid, 
-      tests.wpm, 
-      tests.awpm, 
-      tests.accuracy, 
-      tests.date, 
-      prompts.text, 
-      prompts.theme, 
-      prompts.difficulty
-      FROM tests
-      JOIN prompts ON tests.promptid = prompts.promptid
-      WHERE tests.userid = ${userid}
-      ORDER BY tests.date DESC;
+      SELECT *
+      FROM (
+        SELECT DISTINCT ON (tests.promptid)
+          tests.testid,
+          tests.promptid,
+          tests.wpm,
+          tests.awpm,
+          tests.accuracy,
+          tests.date,
+          prompts.text,
+          prompts.theme,
+          prompts.difficulty
+        FROM tests
+        JOIN prompts ON tests.promptid = prompts.promptid
+        WHERE tests.userid = ${userid}
+        ORDER BY tests.promptid, tests.date DESC, tests.promptid DESC
+      ) AS latest_tests
+      ORDER BY date DESC, promptid DESC;
     `;
 
     response.data.tests = tests;
