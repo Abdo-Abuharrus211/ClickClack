@@ -13,40 +13,51 @@ export default function LoginPage() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setLoading(true);
+  
     setError(null);
-
+  
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+  
+    if (!password) {
+      setError("Password cannot be empty.");
+      return;
+    }
+  
+    setLoading(true);
+  
     const userData = {
       email,
       password,
     };
-
-    try {
+  
       const response = await fetch(`${SERVER_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-        credentials: 'include'
+        credentials: "include",
       });
+      const data = await response.json();
+  
+      setLoading(false);
+      console.log(data);
 
       if (!response.ok) {
-        throw new Error("Failed to sign up.");
+        setError(data.message);
+        return
       }
-
-      const data = await response.json();
+  
       console.log("Login successful:", data);
       window.location.href = "/home";
-
-    } catch (error) {
-      console.error("Error:", error);
-      setError(error.message);
-    } finally {
       setLoading(false);
-    }
   };
+  
 
   return (
     <div className="login-container">
@@ -60,6 +71,8 @@ export default function LoginPage() {
       <p className="login-signup-text">
         Don&apos;t have an account? <Link href="/auth/signup" className="login-signup-link">Sign up here</Link>
       </p>
+
+      <p style={{ color: 'red'}}>{error}</p>
     </div>
   );
 }
