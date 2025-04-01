@@ -74,10 +74,38 @@ export default function PromptPage() {
     } catch (error) {
       console.error("Error fetching previous prompts:", error);
       setError(error);
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
+
+  const deletePrompt = async (promptid) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${SERVER_BASE_URL}/tests/remove-prompt/`, {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ promptid })
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete prompt.");
+      }
+
+      console.log("Received: ", response.message)
+
+      setPrevPrompts((prev) => prev.filter((prompt) => prompt.promptid !== promptid));
+    } catch (error) {
+      console.error("Error deleting prompt:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     // THIS IS IN HERE CUZ BREAK OTHERWISE - React moment
@@ -104,16 +132,16 @@ export default function PromptPage() {
   }, [])
 
 
-
-
   return (
     <>
       <div className="prompt-container">
         <h1 className="prompt-title">Generate a Prompt</h1>
         <p
           className="api-token-text"
-          style={{ backgroundColor: apiTokens > 0 ? "var(--shadow-color)" : "var(--primary)" ,
-            color: apiTokens <= 0 ? "var(--background)" : "var(--text)"}}
+          style={{
+            backgroundColor: apiTokens > 0 ? "var(--shadow-color)" : "var(--primary)",
+            color: apiTokens <= 0 ? "var(--background)" : "var(--text)"
+          }}
         >
           Prompts available: {apiTokens}
         </p>
@@ -185,52 +213,64 @@ export default function PromptPage() {
       {/* Previous user prompts */}
       <div className="container">
         <h2>Previous Prompts</h2>
-        <table className="previous-prompts ">
+        <table className="previous-prompts">
           <thead>
             <tr>
-              <th>PromptID</th>
+              <th>PromptId</th>
               <th>Text</th>
               <th>Difficulty</th>
               <th>Theme</th>
               <th>Date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-             {loading ? (
-            <tr>
-              <td colSpan="6">Loading...</td>
-            </tr>
-          ) : error ? (
-            <tr>
-              <td colSpan="6">Error: {error}</td>
-            </tr>
-          ) : prevPrompts.length === 0 ? (
-            <tr>
-              <td colSpan="6">No prompts available...</td>
-            </tr>
-          ) : (
-            prevPrompts.map((prompt, index) => (
-              /**
-               * This is for cases when the user used the same propmt as it might result in same keys in `promptid`
-               * Note this isn't best practice!
-               */
-              <tr
-                key={prompt.promptid + index}
-                onClick={() => {
-                  setResponse(prompt)
-                }}
-                className="prompt-row"
-              >
-                <td>{prompt.promptid}</td>
-                <td>
-                  {prompt.text.length > 20 ? `${prompt.text.slice(0, 50)}...`: prompt.text}
-                  </td>
-                <td>{prompt.difficulty}</td>
-                <td>{prompt.theme}</td>
-                <td>{new Date(prompt.date).toISOString().split('T')[0]}</td>
+            {loading ? (
+              <tr>
+                <td colSpan="6">Loading...</td>
               </tr>
-            ))
-          )}
+            ) : error ? (
+              <tr>
+                <td colSpan="6">Error: {error}</td>
+              </tr>
+            ) : prevPrompts.length === 0 ? (
+              <tr>
+                <td colSpan="6">No prompts available...</td>
+              </tr>
+            ) : (
+              prevPrompts.map((prompt) => (
+                /**
+                 * This is for cases when the user used the same prompt as it might result in same keys in `promptid`
+                 * Note this isn't best practice!
+                 */
+                <tr
+                  key={prompt.promptid}
+                  onClick={() => {
+                    setResponse(prompt);
+                  }}
+                  className="prompt-row"
+                >
+                  <td>{prompt.promptid}</td>
+                  <td>
+                    {prompt.text.length > 20 ? `${prompt.text.slice(0, 50)}...` : prompt.text}
+                  </td>
+                  <td>{prompt.difficulty}</td>
+                  <td>{prompt.theme}</td>
+                  <td>{new Date(prompt.date).toISOString().split('T')[0]}</td>
+                  <td>
+                    <button
+                      className="delete-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deletePrompt(prompt.promptid);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

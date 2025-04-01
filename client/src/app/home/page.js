@@ -16,7 +16,7 @@ export default function Home() {
     setError(null);
 
     try {
-      const response = await fetch(`${SERVER_BASE_URL}/auth/me`, {
+      const response = await fetch(`${SERVER_BASE_URL}/auth/me/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

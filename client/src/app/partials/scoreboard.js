@@ -11,7 +11,7 @@ export default function Scoreboard() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${SERVER_BASE_URL}/tests/get-tests`, {
+      const response = await fetch(`${SERVER_BASE_URL}/tests/get-tests/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
