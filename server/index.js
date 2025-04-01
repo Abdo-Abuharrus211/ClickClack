@@ -23,6 +23,9 @@ app.use((req, _, next) => {
 
 const swaggerDocument = JSON.parse(fs.readFileSync('./swagger-output.json', 'utf-8'));
 app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/api/swagger-output.json', (_, res) => {
+  res.json(swaggerDocument);
+});
 
 
 // -------------------- Middleware --------------------
