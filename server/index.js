@@ -13,10 +13,10 @@ import sql from './db.js';
 
 const app = express();
 const port = 3011;
-const API_PREFIX = "/api/v1";
+const API_PREFIX = "/v1";
 
 const swaggerDocument = JSON.parse(fs.readFileSync('./swagger-output.json', 'utf-8'));
-app.use('/click-clack/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 // -------------------- Middleware --------------------
