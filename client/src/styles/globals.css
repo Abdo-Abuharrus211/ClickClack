@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+html, body {
+    font-family: "Quicksand", sans-serif; /* Quicksand font */
+    margin: 0;
+    padding: 0;
+  }
+
+* {
+  font-family: "Quicksand", sans-serif;
+  /* Quicksand font */
+}
+
+/* Custom color themes */
+/* :root[data-theme="light"] {
+  --text: #0a1109;
+  --background: #fcfdfc;
+  --primary: #6aaa64;
+  --secondary: #9fcabd;
+  --accent: #85bcb7;
+}
+:root[data-theme="dark"] {
+  --text: #eff6ee;
+  --background: #020302;
+  --primary: #5b9b55;
+  --secondary: #355f53;
+  --accent: #437a75;
+} */
+/*  
+  Duck Plooms
+:root[data-theme="light"] {
+  --text: #101b1e;
+  --background: #ecf3f4;
+  --primary: #315359;
+  --secondary: #9690c1;
+  --accent: #765aa0;
+}
+:root[data-theme="dark"] {
+  --text: #e1ecef;
+  --background: #0b1213;
+  --primary: #a6c8ce;
+  --secondary: #443e6f;
+  --accent: #7b5fa5;
+} */
+
+:root[data-theme="light"] {
+  --text: #1a0a05;
+  --background: #fef9f8;
+  --primary: #d75936;
+  --secondary: #e9d590;
+  --accent: #e0ca65;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --inset-shadow-color: rgba(0, 0, 0, 0.05);
+  --typing-error: lightcoral;
+  --typing-untyped: darkslategray;
+  --typing-correct: gray;
+}
+
+:root[data-theme="dark"] {
+  --text: #faeae5;
+  --background: #090301;
+  --primary: #c84a28;
+  --secondary: #6f5b16;
+  --accent: #98821f;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+  --inset-shadow-color: rgba(255, 255, 255, 0.05);
+  --typing-error: lightcoral;
+  --typing-untyped: white;
+  --typing-correct: gray;
+}
+
+/*---- Global ----*/
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+button {
+  font-size: 1rem;
+  background-color: var(--secondary);
+  color: var(--text);
+  border: none;
+  padding: 5px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--accent);
+}
+button.logout-btn{
+  background-color: var(--primary);
+}
+button.logout-btn:hover{
+  background-color: var(--accent);
+}
+
+.container {
+  margin: 3%;
+  padding: 2rem 2rem;
+  /* box-shadow: inset 0 0 10px var(--inset-shadow-color); */
+  border-radius: 10px;
+  text-align: center ;
+}
+
+.content-box {
+  margin: 3%;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: inline-block;
+  margin: 3%;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 10px var(--shadow-color);
+  border-radius: 10px;
+}
+
+.banner{
+  color: var(--text);
+  margin: 3%;
+  padding: 10% auto;
+  background-color: var(--shadow-color);
+  /* TODO: Decide what to do with this? */
+  /* background-image: url("/duck-couple.JPG");
+  width: 80%;
+  height: 100%;
+  background-size: cover;
+  background-position: center; */
+  border-radius: 10px;
+}
+
+/*---- Form Errors ----*/
+.theme-error {
+  color: var(--primary);
+  font-size: 0.85rem;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.input-error {
+  border: 2px solid var(--primary) !important;
+  background-color: rgba(255, 0, 0, 0.05);
+}
+
+
+
+/*---- Navbar  ----*/
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.1rem 2rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--primary);
+}
+
+.nav-logo a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+.navbar button {
+  background-color: var(--background);
+  color: var(----text);
+  padding: 5px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.nav-btns a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 400;
+  margin-right: 10px;
+}
+
+/* ---- Admin page specifics ---- */
+.user-table {
+  width: 60%;
+  border-collapse: collapse;
+  margin: 6px auto;
+}
+
+.user-table th {
+  background-color: var(--shadow-color);
+  color: var(--text);
+  padding: 4px;
+}
+.user-table th, .user-table td {
+  border: 1px solid var(--primary);
+  padding: 4px;
+  text-align: center;
+}
+
+
+
+/* ---- Scores and Prompts tables----*/
+.score-table, .previous-prompts {
+  width: 60%;
+  border: 1px solid var(--primary);
+  border-collapse: collapse;
+  /* border-radius: 10px; */
+  margin: 6px auto;
+}
+.score-table th, .score-table td, .previous-prompts th, .previous-prompts td {
+  padding: 4px;
+  border: 1px solid var(--primary);
+  text-align: center;
+}
+
+.score-table tr:hover, .previous-prompts tr:hover {
+  background-color: var(--shadow-color);
+  color: var(--text);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+
+/* ---- Prompt page---- */
+
+.api-token-text{
+  background-color: var(--shadow-color);
+  font-size: 1.15rem;
+  color: var(--text);
+  margin: 8px 40%;
+  border-radius: 4px;
+}
+
+
+/* ---- Error pages ---- */
+.not-found, .forbidden {
+  background-color: var(--shadow-color);
+  margin: 10% 20%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.not-found-img{
+  width: 60%;
+  height: 30%;
+  clip-path: circle();
+}
+
+.go-back {
+  background-color: var(--secondary);
+  color: var(--text);
+  margin: 10px;
+}
+
+.go-back:hover {
+  background-color: var(--accent);
+}

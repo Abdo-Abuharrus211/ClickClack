@@ -1,0 +1,38 @@
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 60vh; 
+    text-align: center;
+}
+
+.landing-title {
+    font-size: 75px; 
+    font-weight: bold; 
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.landing-description {
+    font-size: 24px; 
+    font-weight: 500;
+}
+
+.landing-buttons {
+    display: flex;
+    gap: 2px; 
+}
+
+.landing-buttons button {
+    width: 200px; 
+    padding: 8px 18px; 
+    font-size: 15px; 
+    border: none;
+    border-radius: 8px; 
+    cursor: pointer;
+}
+
+.landing-buttons button:hover {
+    filter: brightness(90%);
+}
